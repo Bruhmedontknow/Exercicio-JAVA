@@ -1,0 +1,208 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+abstract class EstadoVeiculo {
+    public abstract void mover();
+    public abstract void parado();
+}
+
+class Veiculo extends EstadoVeiculo {
+    private String marca;
+    private int cilindrada;
+    private String tipoMudanca;
+    private String cor;
+
+    public Veiculo(String marca, int cilindrada, String tipoMudanca, String cor) {
+        this.marca = marca;
+        this.cilindrada = cilindrada;
+        this.tipoMudanca = tipoMudanca;
+        this.cor = cor;
+    }
+
+    public String getMarca() { return marca; }
+    public int getCilindrada() { return cilindrada; }
+    public String getTipoMudanca() { return tipoMudanca; }
+    public String getCor() { return cor; }
+
+    public void modoAcelerar() {
+        System.out.println("O veículo está a acelerar.");
+    }
+
+    @Override
+    public void mover() {
+        System.out.println("Veiculo a andar");
+    }
+
+    @Override
+    public void parado() {
+        System.out.println("Veiculo parado");
+    }
+
+    public void mostrarDetalhes() {
+        System.out.println("Marca: " + marca);
+        System.out.println("Cilindrada: " + cilindrada + " cc");
+        System.out.println("Tipo de mudança: " + tipoMudanca);
+        System.out.println("Cor: " + cor);
+        System.out.println(cilindrada >= 2000 ? "Motor potente." : "Motor moderado.");
+        if (marca.equals("Audi") || marca.equals("BMW")) {
+            System.out.println("Carro alemão.");
+        } else {
+            System.out.println("Outro fabricante.");
+        }
+    }
+}
+
+class Carro extends Veiculo {
+    private int numeroPortas;
+    private boolean descapotavel;
+
+    public Carro(String marca, int cilindrada, String tipoMudanca, String cor, int numeroPortas, boolean descapotavel) {
+        super(marca, cilindrada, tipoMudanca, cor);
+        this.numeroPortas = numeroPortas;
+        this.descapotavel = descapotavel;
+    }
+
+    public int getNumeroPortas() { return numeroPortas; }
+    public boolean isDescapotavel() { return descapotavel; }
+
+    @Override
+    public void modoAcelerar() {
+        System.out.println("O carro acelera com o pedal");
+    }
+
+    @Override
+    public void mostrarDetalhes() {
+        super.mostrarDetalhes();
+        System.out.println("Número de portas" + numeroPortas);
+        System.out.println("E descapotavel" + (descapotavel ? "Sim" : "Não"));
+    }
+}
+
+class Mota extends Veiculo {
+    private int numeroPortas;
+    private boolean descapotavel
+
+    public Mota(String marca, int cilindrada, String tipoMudanca, String cor, int numeroPortas, boolean descapotavel) {
+        super(marca, cilindrada, tipoMudanca, cor);
+        this.numeroPortas = numeroPortas;
+        this.descapotavel = descapotavel;
+    }
+
+    public int getNumeroPortas() { return numeroPortas; }
+    public boolean isDescapotavel() { return descapotavel; }
+
+    @Override
+    public void modoAcelerar() {
+        System.out.println("A mota acelera rapidamente com o punho.");
+    }
+
+    @Override
+    public void mostrarDetalhes() {
+        super.mostrarDetalhes();
+        System.out.println("Número de portas: " + numeroPortas);
+        System.out.println("E descapotavel: " + (descapotavel ? "Sim" : "Não"));
+    }
+}
+public class CarDetails {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Veiculo> registroVeiculos = new ArrayList<>();
+        String sair;
+
+        do {
+            String tipoVeiculo;
+            do {
+                System.out.print("Esta a registrar um carro ou uma mota ? ");
+                tipoVeiculo = scanner.nextLine().toLowerCase();
+                if (!tipoVeiculo.equals("carro") && !tipoVeiculo.equals("mota")) {
+                    System.out.println("Tipo inválido");
+                }
+            } while (!tipoVeiculo.equals("carro") && !tipoVeiculo.equals("mota"));
+
+            System.out.print("Introduza a marca");
+            String marca = scanner.nextLine();
+
+            int cilindrada = 0;
+            while (true) {
+                System.out.print("Introduza a cilindrada");
+                if (scanner.hasNextInt()) {
+                    cilindrada = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                } else {
+                    System.out.println("Cilindrada inválida");
+                    scanner.nextLine();
+                }
+            }
+
+            String tipoMudanca;
+            do {
+                System.out.print("Introduza o tipo de mudança (automatica/manual): ");
+                tipoMudanca = scanner.nextLine();
+                if (!tipoMudanca.equals("automatica") && !tipoMudanca.equals("manual")) {
+                    System.out.println("Entrada inválida");
+                }
+            } while (!tipoMudanca.equals("automatica") && !tipoMudanca.equals("manual"));
+
+            String cor;
+            do {
+                System.out.print("Introduza a cor (Cinza/Preto/Branco): ");
+                cor = scanner.nextLine();
+                if (!cor.equals("Cinza") && !cor.equals("Preto") && !cor.equals("Branco")) {
+                    System.out.println("Entrada inválida. Introduza 'Cinza', 'Preto' ou 'Branco'.");
+                }
+            } while (!cor.equals("Cinza") && !cor.equals("Preto") && !cor.equals("Branco"));
+
+            int numeroPortas = 0;
+            while (true) {
+                System.out.print("Introduza o número de portas: ");
+                if (scanner.hasNextInt()) {
+                    numeroPortas = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                } else {
+                    System.out.println("Número inválido");
+                    scanner.nextLine();
+                }
+            }
+
+            boolean descapotavel = false;
+            while (true) {
+                System.out.print("E descapotavel ?");
+                String resposta = scanner.nextLine().toLowerCase();
+                if (resposta.equals("sim")) {
+                    descapotavel = true;
+                    break;
+                } else if (resposta.equals("não") || resposta.equals("nao")) {
+                    descapotavel = false;
+                    break;
+                } else {
+                    System.out.println("Entrada inválida tente novamente");
+                }
+            }
+
+            if (tipoVeiculo.equals("carro")) {
+                Carro carro = new Carro(marca, cilindrada, tipoMudanca, cor, numeroPortas, descapotavel);
+                registroVeiculos.add(carro);
+            } else {
+                Mota mota = new Mota(marca, cilindrada, tipoMudanca, cor, numeroPortas, descapotavel);
+                registroVeiculos.add(mota);
+            }
+
+            System.out.print("Escreva (Exit) para terminar ou qualquer outra tecla para continuar");
+            sair = scanner.nextLine();
+        } while (!sair.equalsIgnoreCase("Exit"));
+
+        System.out.println("\nRegistro do Veículo");
+        for (Veiculo v : registroVeiculos) {
+            System.out.println("\nDetalhes do Veículo");
+            v.mostrarDetalhes();
+            v.modoAcelerar();
+            v.mover();
+            v.parado();
+        }
+
+
+        scanner.close();
+    }
+}
